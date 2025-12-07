@@ -19,7 +19,7 @@ A powerful and flexible Python library and command-line tool for converting imag
 
 ## Features
 
-![example](./README.assets/example.gif)
+<img src="./README.assets/example.gif" alt="example" width="100%"/>
 
 - **Multiple Rendering Modes**:
   - Density-based ASCII art

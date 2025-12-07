@@ -1,8 +1,25 @@
 # ASCII Art Converter
 
+```bash
+   _____    __________________ .___.___     _____          __    
+  /  _  \  /   _____/\_   ___ \|   |   |   /  _  \________/  |_  
+ /  /_\  \ \_____  \ /    \  \/|   |   |  /  /_\  \_  __ \   __\ 
+/    |    \/        \\     \___|   |   | /    |    \  | \/|  |   
+\____|__  /_______  / \______  /___|___| \____|__  /__|   |__|   
+        \/        \/         \/                  \/              
+_________                                   __                   
+\_   ___ \  ____   _______  __ ____________/  |_  ___________    
+/    \  \/ /  _ \ /    \  \/ // __ \_  __ \   __\/ __ \_  __ \   
+\     \___(  <_> )   |  \   /\  ___/|  | \/|  | \  ___/|  | \/   
+ \______  /\____/|___|  /\_/  \___  >__|   |__|  \___  >__|      
+        \/            \/          \/                 \/         
+```
+
 A powerful and flexible Python library and command-line tool for converting images to ASCII art, Braille art, and edge detection art with support for color, dithering, and various customization options.
 
 ## Features
+
+![example](./README.assets/example.gif)
 
 - **Multiple Rendering Modes**:
   - Density-based ASCII art
@@ -374,4 +391,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-If you encounter any issues or have questions, please open an issue on the [GitHub repository](https://github.com/yourusername/ascii-art-converter/issues).
+If you encounter any issues or have questions, please open an issue on the [GitHub repository](https://github.com/our0boros/ascii-art-converter/issues).

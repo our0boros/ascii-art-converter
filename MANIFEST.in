@@ -1,0 +1,11 @@
+# Include the README file
+include README.md
+
+# Include the requirements file
+include requirements.txt
+
+# Include data files
+recursive-include ascii_art_converter/data *
+
+# Include test files (optional)
+recursive-include tests *

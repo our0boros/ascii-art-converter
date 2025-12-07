@@ -64,7 +64,7 @@ A powerful and flexible Python library and command-line tool for converting imag
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ascii-art-converter.git
+git clone https://github.com/our0boros/ascii-art-converter.git
 cd ascii-art-converter
 ```
 

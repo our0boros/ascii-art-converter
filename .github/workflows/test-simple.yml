@@ -9,6 +9,7 @@ on:
 jobs:
   test-python-versions:
     runs-on: ${{ matrix.os }}
+    if: ${{ (github.event_name == 'push' && startsWith(github.event.head_commit.message, '[UPDATE]')) || github.event_name != 'push' }}
     strategy:
       matrix:
         os: [windows-latest]

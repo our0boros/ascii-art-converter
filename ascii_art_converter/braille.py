@@ -15,7 +15,7 @@ class BrailleGenerator:
     
     @staticmethod
     def image_to_braille(image: Image.Image, width: int = None, height: int = None, 
-                       dither: bool = False, invert: bool = False) -> str:
+                       dither: bool = False, invert: bool = False, threshold: float = 0.5) -> str:
         """
         Convert an image to Braille art.
         
@@ -25,6 +25,7 @@ class BrailleGenerator:
             height: Output height in Braille characters
             dither: Apply dithering
             invert: Invert colors
+            threshold: Threshold for dot activation (0-1)
             
         Returns:
             Braille art string
@@ -47,7 +48,7 @@ class BrailleGenerator:
             arr = 255 - arr
         
         # Generate Braille
-        return BrailleGenerator._generate_braille_from_array(arr)
+        return BrailleGenerator._generate_braille_from_array(arr, threshold=threshold)
     
     @staticmethod
     def _resize_image(image: Image.Image, width: int, height: int) -> Image.Image:
@@ -98,7 +99,7 @@ class BrailleGenerator:
         return Image.fromarray(arr.astype(np.uint8))
     
     @staticmethod
-    def _generate_braille_from_array(arr: np.ndarray) -> str:
+    def _generate_braille_from_array(arr: np.ndarray, threshold: float = 0.5) -> str:
         """
         Generate Braille characters from a numpy array.
         
@@ -125,7 +126,7 @@ class BrailleGenerator:
                 block = arr[y:y+4, x:x+2]
                 
                 # Determine which dots to activate
-                braille_char = BrailleGenerator._block_to_braille(block)
+                braille_char = BrailleGenerator._block_to_braille(block, threshold=threshold)
                 line.append(braille_char)
             
             braille_lines.append(''.join(line))
@@ -133,12 +134,13 @@ class BrailleGenerator:
         return '\n'.join(braille_lines)
     
     @staticmethod
-    def _block_to_braille(block: np.ndarray) -> str:
+    def _block_to_braille(block: np.ndarray, threshold: float = 0.5) -> str:
         """
         Convert a 2x4 pixel block to a Braille character.
         
         Args:
             block: 4x2 numpy array representing the pixel block
+            threshold: Threshold for dot activation (0-1)
             
         Returns:
             Braille character
@@ -146,10 +148,13 @@ class BrailleGenerator:
         if block.shape != (4, 2):
             raise ValueError(f"Block must be 4x2, got {block.shape}")
         
-        # Calculate dot pattern (threshold at 128)
+        # Convert threshold from 0-1 range to 0-255
+        pixel_threshold = threshold * 255
+        
+        # Calculate dot pattern
         dot_pattern = 0
         for y, x, value in BRAILLE_DOTS:
-            if block[x, y] >= 128:  # Swap x and y indices to match block dimensions
+            if block[x, y] >= pixel_threshold:  # Swap x and y indices to match block dimensions
                 dot_pattern |= value
         
         # Convert to Braille character

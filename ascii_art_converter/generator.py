@@ -57,7 +57,8 @@ class AsciiArtGenerator:
                 processed_image,
                 width=config.width,
                 dither=config.dither_method != DitherMethod.NONE,
-                invert=config.invert
+                invert=config.invert,
+                threshold=config.braille_threshold
             )
         else:
             # ASCII generation

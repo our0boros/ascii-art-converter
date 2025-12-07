@@ -23,7 +23,7 @@ class AsciiArtConfig:
     min_width: int = 40                      # Minimum auto width
     
     # Character aspect ratio (width/height of monospace char)
-    char_aspect_ratio: float = 0.5           # Typical terminal char ratio
+    char_aspect_ratio: float = 0.45           # Typical terminal char ratio
     
     # Rendering mode
     mode: RenderMode = RenderMode.DENSITY

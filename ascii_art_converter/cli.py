@@ -36,7 +36,7 @@ Examples:
     parser.add_argument('-H', '--height', type=int, help='Output height in characters')
     parser.add_argument('--max-width', type=int, default=120, help='Maximum auto width')
     parser.add_argument('--min-width', type=int, default=40, help='Minimum auto width')
-    parser.add_argument('--char-ratio', type=float, default=0.5, 
+    parser.add_argument('--char-ratio', type=float, default=0.45, 
                         help='Character aspect ratio (width/height)')
     
     # Mode options

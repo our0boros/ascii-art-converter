@@ -66,7 +66,8 @@ class AsciiArtGenerator:
                 config.width,
                 character_set,
                 config.dither_method != DitherMethod.NONE,
-                config.invert
+                config.invert,
+                char_aspect_ratio=config.char_aspect_ratio
             )
         
         # Create result
@@ -131,7 +132,7 @@ class AsciiArtGenerator:
         return processed
     
     def _image_to_ascii(self, image: Image.Image, width: int, character_set: CharacterSet,
-                       dither: bool = False, invert: bool = False) -> str:
+                       dither: bool = False, invert: bool = False, char_aspect_ratio: float = 0.5) -> str:
         """
         Convert an image to ASCII art.
         
@@ -141,12 +142,13 @@ class AsciiArtGenerator:
             character_set: Character set to use
             dither: Apply dithering
             invert: Invert colors
+            char_aspect_ratio: Character aspect ratio (width/height)
             
         Returns:
             ASCII art string
         """
-        # Resize image
-        resized = self._resize_image(image, width)
+        # Resize image with aspect ratio
+        resized = self._resize_image(image, width, char_aspect_ratio)
         
         # Convert to grayscale
         gray = resized.convert('L')
@@ -165,21 +167,22 @@ class AsciiArtGenerator:
         # Generate ASCII
         return self._generate_ascii_from_array(arr, character_set)
     
-    def _resize_image(self, image: Image.Image, width: int) -> Image.Image:
+    def _resize_image(self, image: Image.Image, width: int, char_aspect_ratio: float = 0.5) -> Image.Image:
         """
         Resize image while maintaining aspect ratio.
         
         Args:
             image: Input image
             width: Output width in characters
+            char_aspect_ratio: Character aspect ratio (width/height)
             
         Returns:
             Resized image
         """
         # Calculate height maintaining aspect ratio
-        aspect_ratio = image.height / image.width
-        # ASCII characters are roughly 2:1 height:width
-        height = int(width * aspect_ratio * 0.5)
+        image_aspect_ratio = image.height / image.width
+        # Adjust for character aspect ratio (width/height of monospace char)
+        height = int(width * image_aspect_ratio * char_aspect_ratio)
         
         return image.resize((width, height), Image.LANCZOS)
     

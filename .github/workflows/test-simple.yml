@@ -1,7 +1,10 @@
 # Simple test workflow to debug Python version issues
 name: Test Python Versions
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   test-python-versions:

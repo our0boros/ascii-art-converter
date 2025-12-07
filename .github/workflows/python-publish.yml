@@ -6,6 +6,12 @@ on:
     tags: "v*"
   pull_request:
     branches: [ main ]
+  workflow_dispatch:  # 支持手动触发
+    inputs:
+      version:
+        description: 'Version for manual publish (optional)'
+        required: false
+        default: ''
 
 jobs:
   # 测试作业

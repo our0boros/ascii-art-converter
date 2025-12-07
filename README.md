@@ -267,6 +267,7 @@ Use the batch processing functionality to convert multiple images with the same 
 ```python
 from ascii_art_converter.batch import BatchProcessor
 from ascii_art_converter.generator import AsciiArtConfig
+from ascii_art_converter.constants import RenderMode
 
 # Create a batch processor
 processor = BatchProcessor()
@@ -274,9 +275,9 @@ processor = BatchProcessor()
 # Define configuration
 config = AsciiArtConfig(
     width=80,
-    mode="density",
+    mode=RenderMode.DENSITY,
     colorize=True,
-    color_mode="256"
+    color_depth=8  # 8 for 256-color, 24 for true color
 )
 
 # Process all PNG files in a directory
@@ -284,7 +285,7 @@ processor.process_directory(
     input_dir="images/",
     output_dir="output/",
     config=config,
-    file_extensions=[".png", ".jpg"]
+    extensions=[".png", ".jpg"]
 )
 ```
 
@@ -295,17 +296,18 @@ The library can be used programmatically in your Python projects:
 ```python
 from PIL import Image
 from ascii_art_converter.generator import AsciiArtGenerator, AsciiArtConfig
+from ascii_art_converter.constants import RenderMode
 
 # Load an image
-image = Image.open("image.png")
+image = Image.open("data/test.png")
 
 # Create configuration
 config = AsciiArtConfig(
     width=100,
-    mode="density",
+    mode=RenderMode.DENSITY,
     char_aspect_ratio=0.45,
     colorize=True,
-    color_mode="24bit",
+    color_depth=24,  # 8 for 256-color, 24 for true color
     contrast=1.2
 )
 
@@ -318,15 +320,16 @@ print(result.text)
 
 # Save as HTML
 from ascii_art_converter.formatters import HtmlFormatter
-html_content = HtmlFormatter.format_result(result)
+html_content = HtmlFormatter.format(result, image, True)
 with open("output.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
 # Save as ANSI
 from ascii_art_converter.formatters import AnsiColorFormatter
 ansi_content = AnsiColorFormatter.format_result(result, color_mode="256")
-with open("output.ansi", "w", encoding="utf-8") as f:
-    f.write(ansi_content)
+# with open("output.ansi", "w", encoding="utf-8") as f:
+#     f.write(ansi_content)
+print(ansi_content)
 ```
 
 ## Examples

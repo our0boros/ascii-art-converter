@@ -66,10 +66,10 @@ class BatchProcessor:
                         output = HtmlFormatter.format(result, img, colorize)
                         output_file = os.path.join(output_dir, f'{name_without_ext}.html')
                     elif format == 'ansi':
-                        output = AnsiColorFormatter.format(result, img, colorize)
+                        output = AnsiColorFormatter.format_result(result, color_mode="256")
                         output_file = os.path.join(output_dir, f'{name_without_ext}.ansi')
                     else:  # txt
-                        output = result.art
+                        output = result.text
                         output_file = os.path.join(output_dir, f'{name_without_ext}.txt')
                     
                     # Save output
@@ -122,10 +122,10 @@ class BatchProcessor:
                         output = HtmlFormatter.format(result, img, colorize)
                         output_file = os.path.join(output_dir, f'{name_without_ext}.html')
                     elif format == 'ansi':
-                        output = AnsiColorFormatter.format(result, img, colorize)
+                        output = AnsiColorFormatter.format_result(result, color_mode="256")
                         output_file = os.path.join(output_dir, f'{name_without_ext}.ansi')
                     else:  # txt
-                        output = result.art
+                        output = result.text
                         output_file = os.path.join(output_dir, f'{name_without_ext}.txt')
                     
                     # Save output

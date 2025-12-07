@@ -58,7 +58,7 @@ class GifToAscii:
             ascii_frames = []
             for frame in frames:
                 result = self.generator.convert(frame, config)
-                ascii_frames.append((result.art, frame))
+                ascii_frames.append((result.text, frame))
             
             # Generate output based on format
             if format == 'html':

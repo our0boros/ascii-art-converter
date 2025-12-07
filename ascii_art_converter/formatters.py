@@ -74,7 +74,7 @@ class HtmlFormatter:
     
     @staticmethod
     def format(result: AsciiArtResult, original_image: Optional[Image.Image] = None, 
-              colorize: bool = True, title: str = "ASCII Art") -> str:
+              colorize: bool = True, title: str = "ASCII Art", stretch_factor: float = 4.5) -> str:
         """
         Format ASCII art as HTML.
         
@@ -83,6 +83,7 @@ class HtmlFormatter:
             original_image: Original image for color reference
             colorize: Apply color to ASCII characters
             title: HTML page title
+            stretch_factor: Stretch factor for horizontal scaling (default: 2.0)
             
         Returns:
             HTML string
@@ -107,6 +108,8 @@ class HtmlFormatter:
             font-size: 1px;
             letter-spacing: 0px;
             line-height: 1;
+            transform: scaleX({stretch_factor});
+            transform-origin: left;
         }}
         .ascii-art-colorized {{
             image-rendering: pixelated;
@@ -119,26 +122,30 @@ class HtmlFormatter:
         
         if colorize and original_image:
             # Colorized HTML with span elements
-            ascii_lines = result.art.split('\n')
+            ascii_lines = result.text.split('\n')
             ascii_height = len(ascii_lines)
             ascii_width = len(ascii_lines[0]) if ascii_height > 0 else 0
             
             # Resize original image to match ASCII dimensions
             resized = original_image.resize((ascii_width, ascii_height), Image.LANCZOS)
+            # Convert to RGB if the image has alpha channel (RGBA)
+            resized = resized.convert('RGB')
             rgb_array = np.array(resized)
             
             for y, line in enumerate(ascii_lines):
                 html += f"        <div>\n"
+                html += "            "
                 for x, char in enumerate(line):
                     if x < rgb_array.shape[1] and y < rgb_array.shape[0]:
                         r, g, b = rgb_array[y, x]
-                        html += f"            <span style='color: rgb({r}, {g}, {b})'>{HtmlFormatter._escape_html(char)}</span>\n"
+                        html += f"<span style='color: rgb({r}, {g}, {b})'>{HtmlFormatter._escape_html(char)}</span>"
                     else:
-                        html += f"            <span>{HtmlFormatter._escape_html(char)}</span>\n"
+                        html += f"<span>{HtmlFormatter._escape_html(char)}</span>"
+                html += "\n"
                 html += f"        </div>\n"
         else:
             # Plain text HTML
-            html += f"        <pre>{HtmlFormatter._escape_html(result.art)}</pre>\n"
+            html += f"        <pre>{HtmlFormatter._escape_html(result.text)}</pre>\n"
         
         # End HTML
         html += f"""    </div>

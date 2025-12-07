@@ -6,12 +6,12 @@ Test script to verify char_aspect_ratio is working correctly.
 from PIL import Image
 from ascii_art_converter.generator import AsciiArtGenerator, AsciiArtConfig
 
-def test_char_ratio(image_path):
+def test_char_ratio():
     """
     Test different char_ratio values and show their effects.
     """
-    # Load image
-    image = Image.open(image_path)
+    # Create a simple test image
+    image = Image.new('RGB', (100, 150), color='red')  # 3:2 aspect ratio
     print(f"Original image size: {image.size}")
     print(f"Original aspect ratio: {image.height / image.width:.3f}")
     print("\nTesting different char_ratio values:")
@@ -39,5 +39,4 @@ def test_char_ratio(image_path):
         print(f"  Total characters: {result.width * result.height}")
         print("-" * 50)
 
-if __name__ == "__main__":
-    test_char_ratio("./data/test.png")
+

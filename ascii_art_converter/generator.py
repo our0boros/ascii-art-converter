@@ -57,7 +57,7 @@ class AsciiArtGenerator:
             # Check if it's a preset name (contains no spaces) or already a character set
             if ' ' not in edge_character_set:
                 edge_character_set = CharacterSet.get_preset(edge_character_set)
-        
+
         # Generate art based on render mode
         if config.mode == RenderMode.BRAILLE:
             art = self.braille_generator.image_to_braille(
@@ -143,7 +143,7 @@ class AsciiArtGenerator:
         # Apply edge detection if render mode is edge
         if config.mode == RenderMode.EDGE:
             processed = self.edge_processor.detect_edges(processed, config.edge_detector)
-        
+
         # Apply smoothing if edge sigma is greater than 0
         if config.edge_sigma > 0:
             processed = processed.filter(ImageFilter.GaussianBlur(radius=config.edge_sigma))

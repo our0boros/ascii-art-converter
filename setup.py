@@ -41,8 +41,14 @@ setup(
     python_requires='>=3.7',
     install_requires=[
         'Pillow>=8.0.0',
-        'numpy>=1.19.0',
+        'numpy>=1.19.0,<2.0.0'
     ],
+    extras_require={
+        'advanced_edge_detection': [
+            'scipy>=1.7.0',
+            'scikit-image>=0.18.0,<0.22.0'
+        ]
+    },
     entry_points={
         'console_scripts': [
             'ascii-art-converter=ascii_art_converter.cli:main',

@@ -57,7 +57,10 @@ Examples:
     parser.add_argument('--edge-sigma', type=float, default=1.0,
                         help='Gaussian blur sigma for edge detection')
     parser.add_argument('--edge-charset', default='edge_basic', 
-                        choices=['edge_basic', 'edge_detailed', 'edge_round'],
+                        choices=['edge_basic', 'edge_detailed', 'edge_round', 'edge_simple', 
+                                 'edge_charset_basic', 'edge_charset_contrast', 'edge_charset_extended',
+                                 'edge_charset_gray', 'edge_charset_gray_dir', 'edge_charset_dir_detail',
+                                 'edge_charset_strength'],
                         help='Character set for edge mode')
     
     # Braille options

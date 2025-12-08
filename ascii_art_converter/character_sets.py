@@ -28,7 +28,7 @@ class CharacterSet:
     # Order: none, horizontal, vertical, diagonal_up(/), diagonal_down(\), cross, corners, etc.
     EDGE_BASIC: str = " -|/\\+LT7VXY"         # Basic edge characters: [none, horizontal, vertical, diagonal_up, diagonal_down, ...]
     EDGE_DETAILED: str = " ─│╱╲┼┌┐└┘├┤┬┴╭╮╯╰"  # Detailed edge characters: [none, horizontal, vertical, diagonal_up, diagonal_down, cross, corners, ...]
-    EDGE_ROUND: str = " ·─│╱╲┼╭╮╯╰"           # Round edge characters: [none, horizontal, vertical, diagonal_up, diagonal_down, cross, rounded corners, ...]
+    EDGE_ROUND: str = " ─│╱╲┼╭╮╯╰"            # Round edge characters: [none, horizontal, vertical, diagonal_up, diagonal_down, cross, rounded corners, ...]
     
     @classmethod
     def get_preset(cls, name: str) -> str:

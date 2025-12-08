@@ -98,7 +98,7 @@ def main():
     """Main entry point for command line usage."""
     parser = create_argument_parser()
     args = parser.parse_args()
-    
+
     # Run demo if requested
     if args.demo:
         demo()
@@ -149,7 +149,7 @@ def main():
     # Get charset
     charset = args.custom_charset if args.custom_charset else CharacterSet.get_preset(args.charset)
     edge_charset = CharacterSet.get_preset(args.edge_charset)
-    
+
     # Build config
     config = AsciiArtConfig(
         width=args.width,

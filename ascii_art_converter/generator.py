@@ -54,7 +54,9 @@ class AsciiArtGenerator:
         # For edge mode, use edge_charset instead
         edge_character_set = config.edge_charset
         if isinstance(edge_character_set, str):
-            edge_character_set = CharacterSet.get_preset(edge_character_set.upper())
+            # Check if it's a preset name (contains no spaces) or already a character set
+            if ' ' not in edge_character_set:
+                edge_character_set = CharacterSet.get_preset(edge_character_set)
         
         # Generate art based on render mode
         if config.mode == RenderMode.BRAILLE:

@@ -151,13 +151,14 @@ class EdgeProcessor:
             Character representing the edge
         """
         if magnitude < threshold:
-            return ' '
+            return charset[0]  # None character at index 0
         
         # Normalize direction to 0-180 degrees
         deg = (np.degrees(direction) + 180) % 180
         
         # Map direction to character based on charset
-        if len(charset) >= 12:
+        # Check if charset has at least 5 characters for direction mapping
+        if len(charset) >= 5:
             # Use detailed charset with direction mapping
             if deg < 22.5 or deg >= 157.5:
                 return charset[1]  # horizontal

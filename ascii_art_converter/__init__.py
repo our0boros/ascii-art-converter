@@ -86,6 +86,6 @@ __all__ = [
 ]
 
 # Version information
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 __author__ = 'ASCII Art Converter Team'
 __license__ = 'MIT'

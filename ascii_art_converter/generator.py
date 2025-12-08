@@ -45,11 +45,16 @@ class AsciiArtGenerator:
         # Preprocess image
         processed_image = self._preprocess_image(image, config)
         
-        # Get character set
+        # Get character set based on render mode
         from .character_sets import CharacterSet
         character_set = config.charset
         if isinstance(character_set, str):
             character_set = CharacterSet.get_preset(character_set.upper())
+        
+        # For edge mode, use edge_charset instead
+        edge_character_set = config.edge_charset
+        if isinstance(edge_character_set, str):
+            edge_character_set = CharacterSet.get_preset(edge_character_set.upper())
         
         # Generate art based on render mode
         if config.mode == RenderMode.BRAILLE:
@@ -60,8 +65,19 @@ class AsciiArtGenerator:
                 invert=config.invert,
                 threshold=config.braille_threshold
             )
+        elif config.mode == RenderMode.EDGE:
+            # Edge mode uses specialized edge detection algorithm
+            art = self._image_to_edge(
+                processed_image,
+                config.width,
+                edge_character_set,
+                config.edge_detector,
+                config.edge_threshold,
+                config.edge_sigma,
+                char_aspect_ratio=config.char_aspect_ratio
+            )
         else:
-            # ASCII generation
+            # ASCII generation (density mode)
             art = self._image_to_ascii(
                 processed_image,
                 config.width,
@@ -242,6 +258,52 @@ class AsciiArtGenerator:
         # Convert to string
         lines = [''.join(row) for row in ascii_array]
         return '\n'.join(lines)
+    
+    def _image_to_edge(self, image: Image.Image, width: int, edge_charset: str, detector: EdgeDetector,
+                      threshold: float, sigma: float, char_aspect_ratio: float = 0.5) -> str:
+        """
+        Convert an image to edge-based ASCII art.
+        
+        Args:
+            image: Input image
+            width: Output width in characters
+            edge_charset: Edge character set to use
+            detector: Edge detection algorithm
+            threshold: Edge detection threshold (0-1)
+            sigma: Gaussian blur sigma for edge detection
+            char_aspect_ratio: Character aspect ratio (width/height)
+            
+        Returns:
+            Edge-based ASCII art string
+        """
+        # Resize image with aspect ratio
+        resized = self._resize_image(image, width, char_aspect_ratio)
+        
+        # Get edge magnitude and direction using EdgeProcessor
+        magnitude, direction = self.edge_processor.detect(resized, detector, sigma)
+        
+        # Normalize magnitude to 0-1 range
+        if magnitude.max() > 0:
+            normalized_magnitude = magnitude / magnitude.max()
+        else:
+            normalized_magnitude = magnitude.astype(np.float64)
+        
+        # Generate edge ASCII using direction-based character mapping
+        h, w = normalized_magnitude.shape
+        ascii_art = []
+        
+        for y in range(h):
+            line = []
+            for x in range(w):
+                mag = normalized_magnitude[y, x]
+                dir_rad = direction[y, x]
+                
+                # Get appropriate edge character based on magnitude and direction
+                char = self.edge_processor.get_edge_char(mag, dir_rad, threshold, edge_charset)
+                line.append(char)
+            ascii_art.append(''.join(line))
+        
+        return '\n'.join(ascii_art)
     
     def _generate_color_data(self, original_image: Image.Image, config: AsciiArtConfig, result: AsciiArtResult) -> List[List[str]]:
         """

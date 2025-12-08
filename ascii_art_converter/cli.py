@@ -56,7 +56,8 @@ Examples:
                         default='sobel', help='Edge detection algorithm')
     parser.add_argument('--edge-sigma', type=float, default=1.0,
                         help='Gaussian blur sigma for edge detection')
-    parser.add_argument('--edge-charset', default='edge_basic',
+    parser.add_argument('--edge-charset', default='edge_basic', 
+                        choices=['edge_basic', 'edge_detailed', 'edge_round'],
                         help='Character set for edge mode')
     
     # Braille options

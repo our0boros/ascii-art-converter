@@ -23,10 +23,12 @@ class CharacterSet:
     ARROWS: str = " ←↑→↓↔↕↖↗↘↙"
     MATH: str = " ∙∴∷⊕⊗⊙⊚⊛"
     
-    # Edge detection characters
-    EDGE_BASIC: str = " -|/\\+LT7VXY"
-    EDGE_DETAILED: str = " ─│╱╲┼┌┐└┘├┤┬┴╭╮╯╰"
-    EDGE_ROUND: str = " ·─│╱╲┼╭╮╯╰"
+    # Edge detection characters - ordered according to main.py's DIRECTION_CHARS
+    # TODO: generator.py Line 302
+    # Order: none, horizontal, vertical, diagonal_up(/), diagonal_down(\), cross, corners, etc.
+    EDGE_BASIC: str = " -|/\\+LT7VXY"         # Basic edge characters: [none, horizontal, vertical, diagonal_up, diagonal_down, ...]
+    EDGE_DETAILED: str = " ─│╱╲┼┌┐└┘├┤┬┴╭╮╯╰"  # Detailed edge characters: [none, horizontal, vertical, diagonal_up, diagonal_down, cross, corners, ...]
+    EDGE_ROUND: str = " ·─│╱╲┼╭╮╯╰"           # Round edge characters: [none, horizontal, vertical, diagonal_up, diagonal_down, cross, rounded corners, ...]
     
     @classmethod
     def get_preset(cls, name: str) -> str:
